@@ -64,6 +64,9 @@ async function main() {
             let appUrl = "http://"+appUrlWithoutPort+":"+port.toString()+"/"
             core.setOutput("app-url", appUrl);
             console.log("Your App has been deployed at: "+appUrl);
+        } else {
+            core.debug("Deployment Result: "+containerDeploymentResult);
+            throw Error("Container Deployment Failed"+containerDeploymentResult);
         }
     }
     catch (error) {
