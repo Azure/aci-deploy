@@ -1,0 +1,131 @@
+#TODO: Change the Branding Accordingly
+name: 'Deploy to Azure Container Instances'
+description: 'Deploy to Containers to Azure Container Instances. github.com/Azure/Actions'
+inputs:
+    resource-group:
+        description: 'Name of the Resource Group in which the Container Instance will be created'
+        required: true
+    azure-file-volume-account-key:
+        description: 'The storage account access key used to access the Azure File Share'
+        required: false
+        default: ''
+    azure-file-volume-account-name:
+        description: 'The name of the storage account that contains the Azure File Share'
+        required: false
+        default: ''
+    azure-file-volume-mount-path:
+        description: 'The path within the container where the Azure File Volume should be mounted. Must not contain ":"'
+        required: false
+        default: ''
+    azure-file-volume-share-name:
+        description: 'The name of the Azure File Share to be mounted as a volume'
+        required: false
+        default: ''
+    azure-file-volume-read-only:
+        description: 'Should the Azure File Share be Mounted as Read Only. Accepted { true, false }'
+        required: false
+        default: ''
+    command-line:
+        description: 'The command line to run when the container is started, e.g. "/bin/bash -c myscript.sh"'
+        required: false
+        default: ''
+    cpu:
+        description: 'Number of CPU Cores Required'
+        required: false
+        default: 1
+    dns-name-label:
+        description: 'The DNS Name Label for Container with Public IP'
+        required: true
+    environment-variables:
+        description: 'List of environment variables for the container. Space-seperated in "key=value" format'
+        required: false
+        default: ''
+    gitrepo-dir:
+        description: 'The target directory path in the git repository. Must not contain ".."'
+        required: false
+        default: ''
+    gitrepo-mount-path:
+        description: 'The path within the container where the git repo volume should be mounted. Must not contain ":"'
+        required: false
+        default: ''
+    gitrepo-revision:
+        description: 'The commit hash for the specified revision'
+        required: false
+        default: ''
+    gitrepo-url:
+        description: 'The URL of a git repository to be mounted as a volume'
+        required: false
+        default: ''
+    gpu-count:
+        description: 'The Number of GPU Resources needed in the Container'
+        required: false
+        default: ''
+    gpu-sku:
+        description: 'The SKU for the GPUs specified. Accepted Values are { K80, P100, V100 }'
+        default: ''
+    image:
+        description: 'Specify the fully qualified container image name. For example, "myregistry.azurecr.io/nginx:latest" or "python:3.7.2-alpine/"'
+        required: true
+    ip-address:
+        description: 'IP Address type of the Container Group. Accepted Values are { Private, Public }'
+        required: false
+        default: 'Public'
+    location:
+        description: 'Location where the Container will be deployed'
+        required: true
+    log-analytics-workspace:
+        description: 'The Log Analytics Workspace Name or Id'
+        required: false
+    log-analytics-workspace-key:
+        description: 'The Log Analytics Workspace Key'
+        required: false
+    log-type:
+        description: 'The Log type to be used. Accepted Values are { ContainerInsights, ContainerInstanceLogs }'
+        required: false
+    memory:
+        description: 'Required Memory of the Containers in GB, accurate to one decimal place'
+        required: false
+        default: 1.5
+    name:
+        description: 'Name of the Container Group Instance'
+        required: true
+    os-type:
+        description: 'The OS type of the Containers. Accepted Values are  { Linux, Windows }'
+        required: false
+        default: 'Linux'
+    ports:
+        description: 'The Ports to Open on the Container. Space seperate the ports for multiple values'
+        required: false
+        default: '80'
+    protocol:
+        description: 'The Network protocol to use. Accepted Values are { TCP, UDP }'
+        required: false
+        default: 'TCP'
+    registry-login-server:
+        description: 'The container image registry login server'
+        required: false
+        default: ''
+    registry-username:
+        description: 'Username to log in Container Image Registry Server'
+        required: false
+        default: ''
+    registry-password:
+        description: 'Password to log in Container Image Registry Server'
+        required: false
+        default: ''
+    restart-policy:
+        description: 'Restart Policy for the container(s). Accepted Values are { Always, OnFailure, Never }'
+        required: false
+        default: 'Always'
+    secure-environment-variables:
+        description: 'List of secure environment variables for the container. Space seperated values in "key=value" format'
+        default: ''
+outputs:
+    app-url:
+        description: 'URL of the Deployed Application'
+branding:
+    icon: 'container-webapp.svg'
+    color: 'blue'
+runs:
+    using: 'node12'
+    main: 'lib/main.js'

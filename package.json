@@ -1,0 +1,30 @@
+{
+  "name": "aci-create-action",
+  "version": "0.0.1",
+  "description": "GitHub Action to Deploy to Azure Container Instances",
+  "main": "lib/main.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/aci-deploy-action.git"
+  },
+  "author": "Mitesh Shah",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/aci-deploy-action/issues"
+  },
+  "homepage": "https://github.com/Azure/aci-deploy-action#readme",
+  "dependencies": {
+    "@actions/core": "^1.2.2",
+    "@azure/arm-containerinstance": "^5.4.0",
+    "@types/q": "^1.5.2",
+    "azure-actions-webclient": "^1.0.10"
+  },
+  "devDependencies": {
+    "@types/node": "^13.5.2",
+    "typescript": "^3.7.5"
+  }
+}
