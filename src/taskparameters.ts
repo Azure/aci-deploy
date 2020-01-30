@@ -34,7 +34,6 @@ export class TaskParameters {
     private _subscriptionId: string;
 
     private constructor(endpoint: IAuthorizer) {
-        // TODO: Huge Constructor for Task Params
         this._endpoint = endpoint;
         this._resourceGroup = core.getInput('resource-group', { required: true });
         this._commandLine = [];
@@ -50,41 +49,11 @@ export class TaskParameters {
         let logType = core.getInput('log-type');
         let logAnalyticsWorkspace = core.getInput('log-analytics-workspace');
         let logAnalyticsWorkspaceKey = core.getInput('log-analytics-workspace-key');
-        if(logAnalyticsWorkspace || logAnalyticsWorkspaceKey) {
-            if(!logAnalyticsWorkspaceKey || !logAnalyticsWorkspace) {
-                throw Error("The Log Analytics Workspace Id or Workspace Key are not provided. Please fill in the appropriate parameters.");
-            }
-            if(logType && (logType != 'ContainerInsights' && 'ContainerInstanceLogs')) {
-                throw Error("Log Type Can be Only of Type `ContainerInsights` or `ContainerInstanceLogs`");
-            }
-            let logAnalytics: ContainerInstanceManagementModels.LogAnalytics = { "workspaceId": logAnalyticsWorkspace, 
-                                                                                 "workspaceKey": logAnalyticsWorkspaceKey };
-            if(logType) {
-                let logT: ContainerInstanceManagementModels.LogAnalyticsLogType;
-                logT = (logType == 'ContainerInsights') ? 'ContainerInsights' : 'ContainerInstanceLogs';
-                logAnalytics.logType = logT;
-            }
-            this._diagnostics = { "logAnalytics": logAnalytics };
-        }
+        this._getDiagnostics(logAnalyticsWorkspace, logAnalyticsWorkspaceKey, logType);
         let environmentVariables = core.getInput('environment-variables');
-        this._environmentVariables = []
-        if(environmentVariables) {
-            let keyValuePairs = environmentVariables.split(' ');
-            keyValuePairs.forEach((pair: string) => {
-                let pairList = pair.split('=');
-                let obj: ContainerInstanceManagementModels.EnvironmentVariable = { "name": pairList[0], "value": pairList[1] };
-                this._environmentVariables.push(obj);
-            })
-        }
         let secureEnvironmentVariables = core.getInput('secure-environment-variables');
-        if(secureEnvironmentVariables) {
-            let keyValuePairs = secureEnvironmentVariables.split(' ');
-            keyValuePairs.forEach((pair: string) => {
-                let pairList = pair.split('=');
-                let obj: ContainerInstanceManagementModels.EnvironmentVariable = { "name": pairList[0], "secureValue": pairList[1] };
-                this._environmentVariables.push(obj);
-            })
-        }
+        this._environmentVariables = []
+        this._getEnvironmentVariables(environmentVariables, secureEnvironmentVariables);
         let gpuCount = core.getInput('gpu-count');
         let gpuSku = core.getInput('gpu-sku');
         if(gpuSku && !gpuCount) {
@@ -113,12 +82,8 @@ export class TaskParameters {
             this._osType = (osType == 'Linux') ? 'Linux' : 'Windows';
         }
         let ports = core.getInput('ports');
-        let portObjArr: Array<ContainerInstanceManagementModels.Port> = [];
-        ports.split(' ').forEach((portStr: string) => {
-            let portInt = parseInt(portStr);
-            portObjArr.push({ "port": portInt });
-        });
-        this._ports = portObjArr;
+        this._ports = [];
+        this._getPorts(ports);
         let protocol = core.getInput('protocol');
         if(protocol != "TCP" && "UDP") {
             throw Error("The Network Protocol can only be TCP or UDP");
@@ -144,8 +109,63 @@ export class TaskParameters {
 
         this._volumes = [];
         this._volumeMounts = [];
-        // Checking git repo volumes
         let gitRepoVolumeUrl = core.getInput('gitrepo-url');
+        let afsAccountName = core.getInput('azure-file-volume-account-name');
+        let afsShareName = core.getInput('azure-file-volume-share-name');
+        this._getVolumes(gitRepoVolumeUrl, afsShareName, afsAccountName);
+        
+        this._subscriptionId = endpoint.subscriptionID;
+    }
+
+    private _getDiagnostics(logAnalyticsWorkspace: string, logAnalyticsWorkspaceKey: string, logType: string) {
+        if(logAnalyticsWorkspace || logAnalyticsWorkspaceKey) {
+            if(!logAnalyticsWorkspaceKey || !logAnalyticsWorkspace) {
+                throw Error("The Log Analytics Workspace Id or Workspace Key are not provided. Please fill in the appropriate parameters.");
+            }
+            if(logType && (logType != 'ContainerInsights' && 'ContainerInstanceLogs')) {
+                throw Error("Log Type Can be Only of Type `ContainerInsights` or `ContainerInstanceLogs`");
+            }
+            let logAnalytics: ContainerInstanceManagementModels.LogAnalytics = { "workspaceId": logAnalyticsWorkspace, 
+                                                                                 "workspaceKey": logAnalyticsWorkspaceKey };
+            if(logType) {
+                let logT: ContainerInstanceManagementModels.LogAnalyticsLogType;
+                logT = (logType == 'ContainerInsights') ? 'ContainerInsights' : 'ContainerInstanceLogs';
+                logAnalytics.logType = logT;
+            }
+            this._diagnostics = { "logAnalytics": logAnalytics };
+        }
+    }
+
+    private _getEnvironmentVariables(environmentVariables: string, secureEnvironmentVariables: string) {
+        if(environmentVariables) {
+            let keyValuePairs = environmentVariables.split(' ');
+            keyValuePairs.forEach((pair: string) => {
+                let pairList = pair.split('=');
+                let obj: ContainerInstanceManagementModels.EnvironmentVariable = { "name": pairList[0], "value": pairList[1] };
+                this._environmentVariables.push(obj);
+            })
+        }
+        if(secureEnvironmentVariables) {
+            let keyValuePairs = secureEnvironmentVariables.split(' ');
+            keyValuePairs.forEach((pair: string) => {
+                let pairList = pair.split('=');
+                let obj: ContainerInstanceManagementModels.EnvironmentVariable = { "name": pairList[0], "secureValue": pairList[1] };
+                this._environmentVariables.push(obj);
+            })
+        }
+    }
+
+    private  _getPorts(ports: string) {
+        let portObjArr: Array<ContainerInstanceManagementModels.Port> = [];
+        ports.split(' ').forEach((portStr: string) => {
+            let portInt = parseInt(portStr);
+            portObjArr.push({ "port": portInt });
+        });
+        this._ports = portObjArr;
+    }
+
+    private _getVolumes(gitRepoVolumeUrl: string, afsShareName: string, afsAccountName: string) {
+        // Checking git repo volumes
         if(gitRepoVolumeUrl) {
             let gitRepoDir = core.getInput('gitrepo-dir');
             let gitRepoMountPath = core.getInput('gitrepo-mount-path');
@@ -165,8 +185,6 @@ export class TaskParameters {
             this._volumeMounts.push(volMount);
         }
         // Checking Azure File Share Volumes
-        let afsAccountName = core.getInput('azure-file-volume-account-name');
-        let afsShareName = core.getInput('azure-file-volume-share-name');
         if(afsShareName && afsAccountName) {
             let afsMountPath = core.getInput('azure-file-volume-mount-path');
             let afsAccountKey = core.getInput('azure-file-volume-account-key');
@@ -193,8 +211,6 @@ export class TaskParameters {
         } else if(!afsAccountName && afsShareName) {
             throw Error("The Storage Account Name for the Azure File Share is required to mount it as a volume");
         } else {};
-
-        this._subscriptionId = endpoint.subscriptionID;
     }
 
     public static getTaskParams(endpoint: IAuthorizer) {
