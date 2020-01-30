@@ -13,7 +13,6 @@ import { TaskParameters } from "./taskparameters";
 var prefix = !!process.env.AZURE_HTTP_USER_AGENT ? `${process.env.AZURE_HTTP_USER_AGENT}` : "";
 
 async function main() {
-    let isDeploymentSuccess: boolean = true;
 
     try {
         // Set user agent variable
@@ -59,22 +58,19 @@ async function main() {
         }
         let containerDeploymentResult = await client.containerGroups.createOrUpdate(taskParams.resourceGroup, taskParams.containerName, containerGroupInstance);
         if(containerDeploymentResult.provisioningState == "Succeeded") {
-            core.warning("Deployment Succeeded.");
+            console.log("Deployment Succeeded.");
             let appUrlWithoutPort = containerDeploymentResult.ipAddress?.fqdn;
             let port = taskParams.ports[0].port;
             let appUrl = "http://"+appUrlWithoutPort+":"+port.toString()+"/"
             core.setOutput("app-url", appUrl);
-            core.warning("Your App has been deployed at: "+appUrl);
+            console.log("Your App has been deployed at: "+appUrl);
         }
     }
     catch (error) {
         core.debug("Deployment Failed with Error: " + error);
-        isDeploymentSuccess = false;
         core.setFailed(error);
     }
     finally{
-        core.debug(isDeploymentSuccess ? "Deployment Succeeded!" : "Deployment Failed!");
-
         // Reset AZURE_HTTP_USER_AGENT
         core.exportVariable('AZURE_HTTP_USER_AGENT', prefix);
     }

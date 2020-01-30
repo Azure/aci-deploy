@@ -9,22 +9,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mitsha-microsoft/aci-create-action.git"
+    "url": "git+https://github.com/Azure/aci-deploy-action.git"
   },
   "author": "Mitesh Shah",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mitsha-microsoft/aci-create-action/issues"
+    "url": "https://github.com/Azure/aci-deploy-action/issues"
   },
-  "homepage": "https://github.com/mitsha-microsoft/aci-create-action#readme",
+  "homepage": "https://github.com/Azure/aci-deploy-action#readme",
   "dependencies": {
-    "@actions/core": "^1.2.1",
+    "@actions/core": "^1.2.2",
     "@azure/arm-containerinstance": "^5.4.0",
     "@types/q": "^1.5.2",
-    "azure-actions-webclient": "^1.0.8"
+    "azure-actions-webclient": "^1.0.10"
   },
   "devDependencies": {
-    "@types/node": "^13.1.7",
+    "@types/node": "^13.5.2",
     "typescript": "^3.7.5"
   }
 }
