@@ -47,7 +47,7 @@ For using any credentials like Azure Service Principal in your workflow, add the
 3. Paste the json response from above Azure CLI to your GitHub Repository > Settings > Secrets > Add a new secret > **AZURE_CREDENTIALS**
 4. Now in the workflow file in your branch: `.github/workflows/workflow.yml` replace the secret in Azure login action with your secret (Refer to the example below)
 
-## Deploying a normal container image to Azure Container Instances
+## Build and Deploy a Node.JS App to Azure Container Instances
 
 ```yaml
 
@@ -58,19 +58,80 @@ jobs:
     build-and-deploy:
         runs-on: ubuntu-latest
         steps:
+        # checkout the repo
+        - name: 'Checkout GitHub Action'
+          uses: actions/checkout@master
+          
         - name: 'Login via Azure CLI'
           uses: azure/login@v1
           with:
             creds: ${{ secrets.AZURE_CREDENTIALS }}
         
+        - uses: azure/docker-login@v1
+          with:
+            login-server: contoso.azurecr.io
+            username: ${{ secrets.REGISTRY_USERNAME }}
+            password: ${{ secrets.REGISTRY_PASSWORD }}
+        - run: |
+            docker build .t contoso.azurecr.io/nodejssampleapp:${{ github.sha }}
+            docker push contoso.azurecr.io/nodejssampleapp:${{ github.sha }}
+
         - name: 'Deploy to Azure Container Instances'
-          uses: '<repo-name>/<action-name>@v1'
+          uses: 'azure/aci-deploy-action@v1'
           with:
             resource-group: contoso
             dns-name-label: url-for-container
-            image: nginx
+            image: contoso.azurecr.io/nodejssampleapp:${{ github.sha }}
+            registry-username: ${{ secrets.REGISTRY_USERNAME }}
+            registry-password: ${{ secrets.REGISTRY_PASSWORD }}
             name: contoso-container
             location: 'west us'
+```
+
+## Example YAML Snippets
+
+### Deploying a Container from a public registry
+
+```yaml
+- uses: Azure/aci-deploy-action@v1
+  with:
+    resource-group: contoso
+    dns-name-label: url-for-container
+    image: nginx
+    name: contoso-container
+    location: 'east us'
+```
+
+### Deploying a Container with Volumes (from Azure File Share or GitHub Repositories)
+```yaml
+- uses: Azure/aci-deploy-action@v1
+  with:
+    resource-group: contoso
+    dns-name-label: url-for-container
+    image: nginx
+    name: contoso-container
+    azure-file-volume-share-name: shareName
+    azure-file-volume-account-name: accountName
+    azure-file-volume-account-key: ${{ secrets.AZURE_FILE_VOLUME_KEY }}
+    azure-file-volume-mount-path: /mnt/volume1
+    location: 'east us'
+```
+
+### Deploying a Container with Environment Variables and Command Line
+
+**NOTE**: Secure Environment Variables aren't masked by the Action so use them as Secrets if you want to hide them
+
+```yaml
+- uses: Azure/aci-deploy-action@v1
+  with:
+    resource-group: contoso
+    dns-name-label: url-for-container
+    image: nginx
+    name: contoso-container
+    command-line: /bin/bash a.sh
+    environment-variables: key1=value1 key2=value2
+    secure-environment-variables: key1=${{ secrets.ENV_VAL1 }} key2=${{ secrets.ENV_VAL2 }}
+    location: 'east us'
 ```
 
 # Contributing
