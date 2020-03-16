@@ -35,6 +35,7 @@ export class TaskParameters {
 
     private constructor(endpoint: IAuthorizer) {
         this._endpoint = endpoint;
+        this._subscriptionId = endpoint.subscriptionID;
         this._resourceGroup = core.getInput('resource-group', { required: true });
         this._commandLine = [];
         let commandLine = core.getInput("command-line");
@@ -113,8 +114,6 @@ export class TaskParameters {
         let afsAccountName = core.getInput('azure-file-volume-account-name');
         let afsShareName = core.getInput('azure-file-volume-share-name');
         this._getVolumes(gitRepoVolumeUrl, afsShareName, afsAccountName);
-        
-        this._subscriptionId = endpoint.subscriptionID;
     }
 
     private _getDiagnostics(logAnalyticsWorkspace: string, logAnalyticsWorkspaceKey: string, logType: string) {
