@@ -124,7 +124,7 @@ outputs:
     app-url:
         description: 'URL of the Deployed Application'
 branding:
-    icon: 'container-webapp.svg'
+    icon: 'azure-logo.svg'
     color: 'blue'
 runs:
     using: 'node12'
