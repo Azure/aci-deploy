@@ -13,7 +13,7 @@ The definition of this GitHub Action is in [action.yml](/action.yml).
 # End-to-End Sample Workflows
 
 ## Dependencies on other GitHub Actions
-* [Azure Login](https://github.com/Azure/login) Login with your Azure Credentials for Web App Deployment Authentication. Once login is done, the next set of Azure Actions in the workflow can re-use the same session within the job.
+* [Azure Login](https://github.com/Azure/login) Login with your Azure Credentials for Authentication. Once login is done, the next set of Azure Actions in the workflow can re-use the same session within the job.
 
 ## Azure Service Principal for RBAC
 For using any credentials like Azure Service Principal in your workflow, add them as [secrets](https://help.github.com/en/articles/virtual-enivronments-for-github-actions#creating-and-using-secrets-encrypted-variables) in the GitHub Repository and then refer them in the workflow.
