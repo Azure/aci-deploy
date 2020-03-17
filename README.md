@@ -77,7 +77,7 @@ jobs:
             docker push contoso.azurecr.io/nodejssampleapp:${{ github.sha }}
 
         - name: 'Deploy to Azure Container Instances'
-          uses: 'azure/aci-deploy-action@v1'
+          uses: 'azure/aci-deploy@v1'
           with:
             resource-group: contoso
             dns-name-label: url-for-container
@@ -93,7 +93,7 @@ jobs:
 ### Deploying a Container from a public registry
 
 ```yaml
-- uses: Azure/aci-deploy-action@v1
+- uses: Azure/aci-deploy@v1
   with:
     resource-group: contoso
     dns-name-label: url-for-container
@@ -104,7 +104,7 @@ jobs:
 
 ### Deploying a Container with Volumes (from Azure File Share or GitHub Repositories)
 ```yaml
-- uses: Azure/aci-deploy-action@v1
+- uses: Azure/aci-deploy@v1
   with:
     resource-group: contoso
     dns-name-label: url-for-container
@@ -122,7 +122,7 @@ jobs:
 **NOTE**: Secure Environment Variables aren't masked by the Action so use them as Secrets if you want to hide them
 
 ```yaml
-- uses: Azure/aci-deploy-action@v1
+- uses: Azure/aci-deploy@v1
   with:
     resource-group: contoso
     dns-name-label: url-for-container
