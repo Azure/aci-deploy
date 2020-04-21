@@ -68,7 +68,7 @@ export class TaskParameters {
         }
         this._image = core.getInput('image', { required: true });
         let ipAddress = core.getInput('ip-address');
-        if(ipAddress != "Public" && "Private") {
+        if (["Public", "Private"].indexOf(ipAddress) < 0) {
             throw Error('The Value of IP Address must be either Public or Private');
         } else {
             this._ipAddress = (ipAddress == 'Public') ? 'Public' : 'Private';
@@ -77,7 +77,7 @@ export class TaskParameters {
         this._memory = parseFloat(core.getInput('memory'));
         this._containerName = core.getInput('name', { required: true });
         let osType = core.getInput('os-type');
-        if(osType != 'Linux' && 'Windows') {
+        if (["Linux", "Windows"].indexOf(osType) < 0) {
             throw Error('The Value of OS Type must be either Linux or Windows only!')
         } else {
             this._osType = (osType == 'Linux') ? 'Linux' : 'Windows';
@@ -86,7 +86,7 @@ export class TaskParameters {
         this._ports = [];
         this._getPorts(ports);
         let protocol = core.getInput('protocol');
-        if(protocol != "TCP" && "UDP") {
+        if (["TCP", "UDP"].indexOf(protocol) < 0) {
             throw Error("The Network Protocol can only be TCP or UDP");
         } else {
             this._protocol = protocol == "TCP" ? 'TCP' : 'UDP';
@@ -102,7 +102,7 @@ export class TaskParameters {
         this._registryUsername = core.getInput('registry-username');
         this._registryPassword = core.getInput('registry-password');
         let restartPolicy = core.getInput('restart-policy');
-        if(restartPolicy != "Always" && "OnFailure" && "Never") {
+        if (["Always", "OnFailure", "Never"].indexOf(restartPolicy) < 0) {
             throw Error('The Value of Restart Policy can be "Always", "OnFailure" or "Never" only!');
         } else {
             this._restartPolicy = ( restartPolicy == 'Always' ) ? 'Always' : ( restartPolicy == 'Never' ? 'Never' : 'OnFailure');
