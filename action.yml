@@ -123,7 +123,7 @@ outputs:
     app-url:
         description: 'URL of the Deployed Application'
 branding:
-    icon: 'azure-logo.svg'
+    icon: 'wtc-logo.svg'
     color: 'blue'
 runs:
     using: 'node12'
