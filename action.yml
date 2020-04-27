@@ -1,4 +1,4 @@
-name: 'Deploy to Azure Container Instances'
+name: 'WeThinkCode_ Deploy to Azure Container Instances'
 description: 'Deploy to Containers to Azure Container Instances. github.com/Azure/Actions'
 inputs:
     resource-group:

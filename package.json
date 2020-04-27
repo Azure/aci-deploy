@@ -1,7 +1,7 @@
 {
-  "name": "aci-create-action",
+  "name": "wtc-aci-create-action",
   "version": "0.0.1",
-  "description": "GitHub Action to Deploy to Azure Container Instances",
+  "description": "GitHub Action to Deploy to Azure Container Instances. This is a fork of https://github.com/Azure/aci-deploy-action which has a bug and this fork has not been merged yet.",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Azure/aci-deploy-action.git"
+    "url": "git+https://github.com/crbaker/aci-deploy-action.git"
   },
-  "author": "Mitesh Shah",
+  "author": "Chris Baker",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Azure/aci-deploy-action/issues"
+    "url": "https://github.com/crbaker/aci-deploy-action/issues"
   },
-  "homepage": "https://github.com/Azure/aci-deploy-action#readme",
+  "homepage": "https://github.com/crbaker/aci-deploy-action#readme",
   "dependencies": {
     "@actions/core": "^1.2.2",
     "@azure/arm-containerinstance": "^5.4.0",
