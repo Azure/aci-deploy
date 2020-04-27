@@ -1,6 +1,6 @@
 {
   "name": "wtc-aci-create-action",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "GitHub Action to Deploy to Azure Container Instances. This is a fork of https://github.com/Azure/aci-deploy-action which has a bug and this fork has not been merged yet.",
   "main": "lib/main.js",
   "scripts": {
