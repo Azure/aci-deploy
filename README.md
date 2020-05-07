@@ -88,6 +88,8 @@ jobs:
             location: 'west us'
 ```
 
+**NOTE**: The registry credentials used in the example above (secrets `REGISTRY_USERNAME` and `REGISTRY_PASSWORD`) is the Azure container registry [Admin account](https://docs.microsoft.com/en-us/azure/container-registry/container-registry-authentication#admin-account), which needs to be enabled via Azure portal.
+
 ## Example YAML Snippets
 
 ### Deploying a Container from a public registry
