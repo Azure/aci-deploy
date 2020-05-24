@@ -26,5 +26,8 @@
   "devDependencies": {
     "@types/node": "^13.5.2",
     "typescript": "^3.7.5"
+  },
+  "prettier": {
+    "tabWidth": 4
   }
 }
