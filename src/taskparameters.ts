@@ -139,7 +139,7 @@ export class TaskParameters {
         if(environmentVariables) {
             let keyValuePairs = environmentVariables.split(' ');
             keyValuePairs.forEach((pair: string) => {
-                let pairList = pair.split('=');
+                let pairList = pair.split(/=(.+)/);
                 let obj: ContainerInstanceManagementModels.EnvironmentVariable = { "name": pairList[0], "value": pairList[1] };
                 this._environmentVariables.push(obj);
             })
@@ -147,7 +147,7 @@ export class TaskParameters {
         if(secureEnvironmentVariables) {
             let keyValuePairs = secureEnvironmentVariables.split(' ');
             keyValuePairs.forEach((pair: string) => {
-                let pairList = pair.split('=');
+                let pairList = pair.split(/=(.+)/);
                 let obj: ContainerInstanceManagementModels.EnvironmentVariable = { "name": pairList[0], "secureValue": pairList[1] };
                 this._environmentVariables.push(obj);
             })
