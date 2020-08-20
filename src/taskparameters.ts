@@ -137,18 +137,28 @@ export class TaskParameters {
 
     private _getEnvironmentVariables(environmentVariables: string, secureEnvironmentVariables: string) {
         if(environmentVariables) {
-            let keyValuePairs = environmentVariables.split(' ');
+            // split on whitespace, but ignore the ones that are enclosed in quotes
+            let keyValuePairs = environmentVariables.match(/(?:[^\s"]+|"[^"]*")+/g) || [];
             keyValuePairs.forEach((pair: string) => {
-                let pairList = pair.split('=');
-                let obj: ContainerInstanceManagementModels.EnvironmentVariable = { "name": pairList[0], "value": pairList[1] };
+                // value is either wrapped in quotes or not
+                let pairList = pair.split(/=(?:"(.+)"|(.+))/);
+                let obj: ContainerInstanceManagementModels.EnvironmentVariable = { 
+                    "name": pairList[0], 
+                    "value": pairList[1] || pairList[2]
+                };
                 this._environmentVariables.push(obj);
             })
         }
         if(secureEnvironmentVariables) {
-            let keyValuePairs = secureEnvironmentVariables.split(' ');
+            // split on whitespace, but ignore the ones that are enclosed in quotes
+            let keyValuePairs = secureEnvironmentVariables.match(/(?:[^\s"]+|"[^"]*")+/g) || [];
             keyValuePairs.forEach((pair: string) => {
-                let pairList = pair.split('=');
-                let obj: ContainerInstanceManagementModels.EnvironmentVariable = { "name": pairList[0], "secureValue": pairList[1] };
+                // value is either wrapped in quotes or not
+                let pairList = pair.split(/=(?:"(.+)"|(.+))/);
+                let obj: ContainerInstanceManagementModels.EnvironmentVariable = { 
+                    "name": pairList[0], 
+                    "value": pairList[1] || pairList[2]
+                };
                 this._environmentVariables.push(obj);
             })
         }
