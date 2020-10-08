@@ -94,7 +94,7 @@ export class TaskParameters {
         this._registryLoginServer = core.getInput('registry-login-server');
         if(!this._registryLoginServer) {
             // If the user doesn't give registry login server and the registry is ACR
-            let imageList = this._registryLoginServer.split('/');
+            let imageList = this._image.split('/');
             if(imageList[0].indexOf('azurecr') > -1) {
                 this._registryLoginServer = imageList[0];
             }
