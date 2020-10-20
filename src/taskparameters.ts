@@ -76,12 +76,14 @@ export class TaskParameters {
         this._location = core.getInput('location', { required: true });
         this._memory = parseFloat(core.getInput('memory'));
         this._containerName = core.getInput('name', { required: true });
+
         let osType = core.getInput('os-type');
-        if(osType != 'Linux' && 'Windows') {
-            throw Error('The Value of OS Type must be either Linux or Windows only!')
+        if (["Linux", "Windows"].includes(osType) == false) {
+            throw Error(`The Value of OS Type must be either Linux or Windows only - got ${osType}!`);
         } else {
             this._osType = (osType == 'Linux') ? 'Linux' : 'Windows';
         }
+        
         let ports = core.getInput('ports');
         this._ports = [];
         this._getPorts(ports);
