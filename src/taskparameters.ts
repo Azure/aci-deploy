@@ -209,7 +209,7 @@ export class TaskParameters {
             }
             let volMount: ContainerInstanceManagementModels.VolumeMount = { "name": "azure-file-share-vol", "mountPath": afsMountPath };
             if(afsReadOnly) {
-                if(!['true', 'false'].length.includes(afsReadOnly)) {
+                if(!['true', 'false'].includes(afsReadOnly)) {
                     throw Error("The Read-Only Flag can only be `true` or `false` for the Azure File Share Volume");
                 }
                 vol.readOnly = (afsReadOnly == "true");
