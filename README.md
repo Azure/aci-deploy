@@ -86,6 +86,9 @@ jobs:
             registry-password: ${{ secrets.REGISTRY_PASSWORD }}
             name: contoso-container
             location: 'west us'
+            ports:
+              80
+              443
 ```
 
 ## Example YAML Snippets
