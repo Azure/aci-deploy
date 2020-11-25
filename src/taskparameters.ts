@@ -30,7 +30,6 @@ export class TaskParameters {
     private _restartPolicy: ContainerInstanceManagementModels.ContainerGroupRestartPolicy;
     private _volumes: Array<ContainerInstanceManagementModels.Volume>;
     private _volumeMounts: Array<ContainerInstanceManagementModels.VolumeMount>;
-    
     private _subscriptionId: string;
 
     private constructor(endpoint: IAuthorizer) {
@@ -58,7 +57,7 @@ export class TaskParameters {
         let gpuCount = core.getInput('gpu-count');
         let gpuSku = core.getInput('gpu-sku');
         if(gpuSku && !gpuCount) {
-            throw Error("You need to specify the count of GPU Resources with the SKU!"); 
+            throw Error("You need to specify the count of GPU Resources with the SKU!");
         } else {
             if(gpuCount && !gpuSku) {
                 throw Error("GPU SKU is not specified for the count. Please provide the `gpu-sku` parameter");
@@ -67,12 +66,14 @@ export class TaskParameters {
             this._gpuSKU = (gpuSku == 'K80') ? 'K80' : ( gpuSku == 'P100' ? 'P100' : 'V100');
         }
         this._image = core.getInput('image', { required: true });
+
         let ipAddress = core.getInput('ip-address');
-        if(ipAddress != "Public" && "Private") {
+        if(["Public", "Private"].includes(ipAddress) == false) {
             throw Error('The Value of IP Address must be either Public or Private');
         } else {
             this._ipAddress = (ipAddress == 'Public') ? 'Public' : 'Private';
         }
+
         this._location = core.getInput('location', { required: true });
         this._memory = parseFloat(core.getInput('memory'));
         this._containerName = core.getInput('name', { required: true });
@@ -83,12 +84,13 @@ export class TaskParameters {
         } else {
             this._osType = (osType == 'Linux') ? 'Linux' : 'Windows';
         }
-        
+
         let ports = core.getInput('ports');
         this._ports = [];
         this._getPorts(ports);
+
         let protocol = core.getInput('protocol');
-        if(protocol != "TCP" && "UDP") {
+        if (["TCP", "UDP"].includes(protocol) == false) {
             throw Error("The Network Protocol can only be TCP or UDP");
         } else {
             this._protocol = protocol == "TCP" ? 'TCP' : 'UDP';
@@ -103,8 +105,9 @@ export class TaskParameters {
         }
         this._registryUsername = core.getInput('registry-username');
         this._registryPassword = core.getInput('registry-password');
+
         let restartPolicy = core.getInput('restart-policy');
-        if(restartPolicy != "Always" && "OnFailure" && "Never") {
+        if (["Always", "OnFailure", "Never"].includes(restartPolicy) == false) {
             throw Error('The Value of Restart Policy can be "Always", "OnFailure" or "Never" only!');
         } else {
             this._restartPolicy = ( restartPolicy == 'Always' ) ? 'Always' : ( restartPolicy == 'Never' ? 'Never' : 'OnFailure');
@@ -126,7 +129,7 @@ export class TaskParameters {
             if(logType && (logType != 'ContainerInsights' && 'ContainerInstanceLogs')) {
                 throw Error("Log Type Can be Only of Type `ContainerInsights` or `ContainerInstanceLogs`");
             }
-            let logAnalytics: ContainerInstanceManagementModels.LogAnalytics = { "workspaceId": logAnalyticsWorkspace, 
+            let logAnalytics: ContainerInstanceManagementModels.LogAnalytics = { "workspaceId": logAnalyticsWorkspace,
                                                                                  "workspaceKey": logAnalyticsWorkspaceKey };
             if(logType) {
                 let logT: ContainerInstanceManagementModels.LogAnalyticsLogType;
@@ -144,8 +147,8 @@ export class TaskParameters {
             keyValuePairs.forEach((pair: string) => {
                 // value is either wrapped in quotes or not
                 let pairList = pair.split(/=(?:"(.+)"|(.+))/);
-                let obj: ContainerInstanceManagementModels.EnvironmentVariable = { 
-                    "name": pairList[0], 
+                let obj: ContainerInstanceManagementModels.EnvironmentVariable = {
+                    "name": pairList[0],
                     "value": pairList[1] || pairList[2]
                 };
                 this._environmentVariables.push(obj);
@@ -157,8 +160,8 @@ export class TaskParameters {
             keyValuePairs.forEach((pair: string) => {
                 // value is either wrapped in quotes or not
                 let pairList = pair.split(/=(?:"(.+)"|(.+))/);
-                let obj: ContainerInstanceManagementModels.EnvironmentVariable = { 
-                    "name": pairList[0], 
+                let obj: ContainerInstanceManagementModels.EnvironmentVariable = {
+                    "name": pairList[0],
                     "value": pairList[1] || pairList[2]
                 };
                 this._environmentVariables.push(obj);
@@ -209,7 +212,7 @@ export class TaskParameters {
             }
             let volMount: ContainerInstanceManagementModels.VolumeMount = { "name": "azure-file-share-vol", "mountPath": afsMountPath };
             if(afsReadOnly) {
-                if(afsReadOnly != "true" && "false") {
+                if (["true", "false"].includes(afsReadOnly) == false) {
                     throw Error("The Read-Only Flag can only be `true` or `false` for the Azure File Share Volume");
                 }
                 vol.readOnly = (afsReadOnly == "true");
