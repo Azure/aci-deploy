@@ -4,7 +4,7 @@
   "description": "GitHub Action to Deploy to Azure Container Instances",
   "main": "lib/main.js",
   "scripts": {
-    "build": "node lib/main.js",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,6 +25,7 @@
     "@types/q": "^1.5.2",
     "axios": "^0.21.0",
     "azure-actions-webclient": "^1.0.10",
+    "express": "^4.17.1",
     "follow-redirects": "^1.13.0"
   },
   "devDependencies": {
