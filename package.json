@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Azure/aci-deploy-action#readme",
   "dependencies": {
     "@actions/core": "^1.2.6",
+    "@actions/github": "^4.0.0",
     "@azure/arm-containerinstance": "^5.4.0",
     "@azure/ms-rest-azure-js": "^2.0.1",
     "@types/q": "^1.5.2",
