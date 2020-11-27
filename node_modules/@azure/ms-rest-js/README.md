@@ -2,7 +2,7 @@
 
 [![Build Status](https://dev.azure.com/azure-public/azsdk/_apis/build/status/public.Azure.ms-rest-js%20-%20CI)](https://dev.azure.com/azure-public/azsdk/_build/latest?definitionId=39)
 
-Runtime for isomorphic javascript libraries (that work in the browser and node.js environemnt) generated via [Autorest](https://github.com/Azure/Autorest).
+Runtime for isomorphic javascript libraries (that work in the browser and node.js environment) generated via [Autorest](https://github.com/Azure/Autorest).
 
 ## Requirements
 - node.js version > 6.x

@@ -27,6 +27,7 @@
     "follow-redirects": "^1.13.0"
   },
   "devDependencies": {
+    "@azure/ms-rest-js": "^2.1.0",
     "@types/node": "^13.5.2",
     "typescript": "^3.7.5"
   }

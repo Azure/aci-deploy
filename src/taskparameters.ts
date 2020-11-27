@@ -228,7 +228,7 @@ export class TaskParameters {
             throw Error("The Name of the Azure File Share is required to mount it as a volume");
         } else if(!afsAccountName && afsShareName) {
             throw Error("The Storage Account Name for the Azure File Share is required to mount it as a volume");
-        } else {};
+        } else {}
     }
 
     public static getTaskParams(endpoint: IAuthorizer) {
