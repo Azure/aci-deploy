@@ -168,7 +168,9 @@ export class TaskParameters {
         if (environmentFile){
             const envFile = readFileSync(environmentFile, 'utf-8');
             envFile.split(/[\r\n]+/).forEach(value => {
-                this._getEnvironmentVariables(value,'','')
+                if(!value.startsWith('#')){
+                    this._getEnvironmentVariables(value,'','');
+                }
             });
         }
     }
