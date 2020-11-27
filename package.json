@@ -24,7 +24,8 @@
     "@azure/ms-rest-azure-js": "^2.0.1",
     "@types/q": "^1.5.2",
     "axios": "^0.21.0",
-    "azure-actions-webclient": "^1.0.10","express": "^4.17.1",
+    "azure-actions-webclient": "^1.0.10",
+    "express": "^4.17.1",
     "follow-redirects": "^1.13.0"
   },
   "devDependencies": {
