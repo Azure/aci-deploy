@@ -86,7 +86,13 @@ export abstract class LROPollStrategy {
       result.parsedBody = response.parsedBody;
     } else if (typeof resource.valueOf() === "string") {
       result.bodyAsText = resource;
-      result.parsedBody = JSON.parse(resource);
+      try {
+        result.parsedBody = JSON.parse(resource);
+      } catch (err) {
+        // There was an error parsing the JSON. Hence we set the resource as-is. Most likely, the
+        // resource is a string that was already parsed.
+        result.parsedBody = resource;
+      }
     } else {
       result.bodyAsText = JSON.stringify(resource);
       result.parsedBody = resource;

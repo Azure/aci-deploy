@@ -14,6 +14,10 @@ export class XhrHttpClient implements HttpClient {
   public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     const xhr = new XMLHttpRequest();
 
+    if (request.agentSettings) {
+      throw new Error("HTTP agent settings not supported in browser environment");
+    }
+
     if (request.proxySettings) {
       throw new Error("HTTP proxy is not supported in browser environment");
     }

@@ -20,8 +20,11 @@
   "dependencies": {
     "@actions/core": "^1.2.6",
     "@azure/arm-containerinstance": "^5.4.0",
+    "@azure/ms-rest-azure-js": "^2.0.1",
     "@types/q": "^1.5.2",
-    "azure-actions-webclient": "^1.0.10"
+    "axios": "^0.21.0",
+    "azure-actions-webclient": "^1.0.10",
+    "follow-redirects": "^1.13.0"
   },
   "devDependencies": {
     "@types/node": "^13.5.2",
