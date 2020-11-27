@@ -4,7 +4,7 @@
   "description": "GitHub Action to Deploy to Azure Container Instances",
   "main": "lib/main.js",
   "scripts": {
-    "build": "tsc",
+    "build": "node lib/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
