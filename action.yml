@@ -39,6 +39,10 @@ inputs:
         description: 'List of environment variables for the container. Space-seperated in "key=value" format'
         required: false
         default: ''
+    env-file:
+        description: 'Path to the .env file'
+        required: false
+        default: ''
     gitrepo-dir:
         description: 'The target directory path in the git repository. Must not contain ".."'
         required: false

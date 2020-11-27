@@ -2,8 +2,8 @@ import * as core from '@actions/core';
 
 import { IAuthorizer } from "azure-actions-webclient/Authorizer/IAuthorizer";
 
-import fs = require('fs');
 import { ContainerInstanceManagementModels } from '@azure/arm-containerinstance';
+import { readFileSync } from 'fs';
 
 export class TaskParameters {
     private static taskparams: TaskParameters;
@@ -30,7 +30,7 @@ export class TaskParameters {
     private _restartPolicy: ContainerInstanceManagementModels.ContainerGroupRestartPolicy;
     private _volumes: Array<ContainerInstanceManagementModels.Volume>;
     private _volumeMounts: Array<ContainerInstanceManagementModels.VolumeMount>;
-    
+
     private _subscriptionId: string;
 
     private constructor(endpoint: IAuthorizer) {
@@ -52,13 +52,14 @@ export class TaskParameters {
         let logAnalyticsWorkspaceKey = core.getInput('log-analytics-workspace-key');
         this._getDiagnostics(logAnalyticsWorkspace, logAnalyticsWorkspaceKey, logType);
         let environmentVariables = core.getInput('environment-variables');
+        let envFile = core.getInput('env-file')
         let secureEnvironmentVariables = core.getInput('secure-environment-variables');
         this._environmentVariables = []
-        this._getEnvironmentVariables(environmentVariables, secureEnvironmentVariables);
+        this._getEnvironmentVariables(environmentVariables, secureEnvironmentVariables, envFile);
         let gpuCount = core.getInput('gpu-count');
         let gpuSku = core.getInput('gpu-sku');
         if(gpuSku && !gpuCount) {
-            throw Error("You need to specify the count of GPU Resources with the SKU!"); 
+            throw Error("You need to specify the count of GPU Resources with the SKU!");
         } else {
             if(gpuCount && !gpuSku) {
                 throw Error("GPU SKU is not specified for the count. Please provide the `gpu-sku` parameter");
@@ -83,7 +84,7 @@ export class TaskParameters {
         } else {
             this._osType = (osType == 'Linux') ? 'Linux' : 'Windows';
         }
-        
+
         let ports = core.getInput('ports');
         this._ports = [];
         this._getPorts(ports);
@@ -126,7 +127,7 @@ export class TaskParameters {
             if(logType && (logType != 'ContainerInsights' && 'ContainerInstanceLogs')) {
                 throw Error("Log Type Can be Only of Type `ContainerInsights` or `ContainerInstanceLogs`");
             }
-            let logAnalytics: ContainerInstanceManagementModels.LogAnalytics = { "workspaceId": logAnalyticsWorkspace, 
+            let logAnalytics: ContainerInstanceManagementModels.LogAnalytics = { "workspaceId": logAnalyticsWorkspace,
                                                                                  "workspaceKey": logAnalyticsWorkspaceKey };
             if(logType) {
                 let logT: ContainerInstanceManagementModels.LogAnalyticsLogType;
@@ -137,15 +138,15 @@ export class TaskParameters {
         }
     }
 
-    private _getEnvironmentVariables(environmentVariables: string, secureEnvironmentVariables: string) {
+    private _getEnvironmentVariables(environmentVariables: string, secureEnvironmentVariables: string, environmentFile: string) {
         if(environmentVariables) {
             // split on whitespace, but ignore the ones that are enclosed in quotes
             let keyValuePairs = environmentVariables.match(/(?:[^\s"]+|"[^"]*")+/g) || [];
             keyValuePairs.forEach((pair: string) => {
                 // value is either wrapped in quotes or not
                 let pairList = pair.split(/=(?:"(.+)"|(.+))/);
-                let obj: ContainerInstanceManagementModels.EnvironmentVariable = { 
-                    "name": pairList[0], 
+                let obj: ContainerInstanceManagementModels.EnvironmentVariable = {
+                    "name": pairList[0],
                     "value": pairList[1] || pairList[2]
                 };
                 this._environmentVariables.push(obj);
@@ -157,12 +158,18 @@ export class TaskParameters {
             keyValuePairs.forEach((pair: string) => {
                 // value is either wrapped in quotes or not
                 let pairList = pair.split(/=(?:"(.+)"|(.+))/);
-                let obj: ContainerInstanceManagementModels.EnvironmentVariable = { 
-                    "name": pairList[0], 
+                let obj: ContainerInstanceManagementModels.EnvironmentVariable = {
+                    "name": pairList[0],
                     "value": pairList[1] || pairList[2]
                 };
                 this._environmentVariables.push(obj);
             })
+        }
+        if (environmentFile){
+            const envFile = readFileSync(environmentFile, 'utf-8');
+            envFile.split(/[\r\n]+/).forEach(value => {
+                this._getEnvironmentVariables(value,'','')
+            });
         }
     }
 
