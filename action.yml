@@ -31,12 +31,16 @@ inputs:
     cpu:
         description: 'Number of CPU Cores Required'
         required: false
-        default: 1
+        default: '1'
     dns-name-label:
         description: 'The DNS Name Label for Container with Public IP'
         required: true
     environment-variables:
         description: 'List of environment variables for the container. Space-seperated in "key=value" format'
+        required: false
+        default: ''
+    env-file:
+        description: 'Path to the .env file'
         required: false
         default: ''
     gitrepo-dir:
@@ -61,6 +65,7 @@ inputs:
         default: ''
     gpu-sku:
         description: 'The SKU for the GPUs specified. Accepted Values are { K80, P100, V100 }'
+        required: false
         default: ''
     image:
         description: 'Specify the fully qualified container image name. For example, "myregistry.azurecr.io/nginx:latest" or "python:3.7.2-alpine/"'
@@ -84,7 +89,7 @@ inputs:
     memory:
         description: 'Required Memory of the Containers in GB, accurate to one decimal place'
         required: false
-        default: 1.5
+        default: '1.5'
     name:
         description: 'Name of the Container Group Instance'
         required: true
@@ -118,12 +123,13 @@ inputs:
         default: 'Always'
     secure-environment-variables:
         description: 'List of secure environment variables for the container. Space seperated values in "key=value" format'
+        required: false
         default: ''
 outputs:
     app-url:
         description: 'URL of the Deployed Application'
 branding:
-    icon: 'azure-logo.svg'
+    icon: azure-logo.svg'
     color: 'blue'
 runs:
     using: 'node12'

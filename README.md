@@ -131,6 +131,7 @@ jobs:
     command-line: /bin/bash a.sh
     environment-variables: key1=value1 key2=value2
     secure-environment-variables: key1=${{ secrets.ENV_VAL1 }} key2=${{ secrets.ENV_VAL2 }}
+    env-file: '.env'
     location: 'east us'
 ```
 
