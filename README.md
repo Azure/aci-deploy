@@ -73,7 +73,7 @@ jobs:
             username: ${{ secrets.REGISTRY_USERNAME }}
             password: ${{ secrets.REGISTRY_PASSWORD }}
         - run: |
-            docker build .t contoso.azurecr.io/nodejssampleapp:${{ github.sha }}
+            docker build . -t contoso.azurecr.io/nodejssampleapp:${{ github.sha }}
             docker push contoso.azurecr.io/nodejssampleapp:${{ github.sha }}
 
         - name: 'Deploy to Azure Container Instances'
