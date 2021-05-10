@@ -68,7 +68,7 @@ export class TaskParameters {
         }
         this._image = core.getInput('image', { required: true });
         let ipAddress = core.getInput('ip-address');
-        if(!["Private", "Public"].includes(ipAddress)) {
+        if(ipAddress != "Public" && "Private") {
             throw Error('The Value of IP Address must be either Public or Private');
         } else {
             this._ipAddress = (ipAddress == 'Public') ? 'Public' : 'Private';
@@ -78,8 +78,7 @@ export class TaskParameters {
         this._containerName = core.getInput('name', { required: true });
 
         let osType = core.getInput('os-type');
-
-        if (!["Linux", "Windows"].includes(osType)) {
+        if (["Linux", "Windows"].includes(osType) == false) {
             throw Error(`The Value of OS Type must be either Linux or Windows only - got ${osType}!`);
         } else {
             this._osType = (osType == 'Linux') ? 'Linux' : 'Windows';
@@ -89,7 +88,7 @@ export class TaskParameters {
         this._ports = [];
         this._getPorts(ports);
         let protocol = core.getInput('protocol');
-        if(!["TCP", "UDP"].includes(protocol)) {
+        if(protocol != "TCP" && "UDP") {
             throw Error("The Network Protocol can only be TCP or UDP");
         } else {
             this._protocol = protocol == "TCP" ? 'TCP' : 'UDP';
@@ -97,7 +96,7 @@ export class TaskParameters {
         this._registryLoginServer = core.getInput('registry-login-server');
         if(!this._registryLoginServer) {
             // If the user doesn't give registry login server and the registry is ACR
-            let imageList = this._image.split('/');
+            let imageList = this._registryLoginServer.split('/');
             if(imageList[0].indexOf('azurecr') > -1) {
                 this._registryLoginServer = imageList[0];
             }
@@ -105,7 +104,7 @@ export class TaskParameters {
         this._registryUsername = core.getInput('registry-username');
         this._registryPassword = core.getInput('registry-password');
         let restartPolicy = core.getInput('restart-policy');
-        if(!["Always", "OnFailure", "Never"].includes(restartPolicy)) {
+        if(restartPolicy != "Always" && "OnFailure" && "Never") {
             throw Error('The Value of Restart Policy can be "Always", "OnFailure" or "Never" only!');
         } else {
             this._restartPolicy = ( restartPolicy == 'Always' ) ? 'Always' : ( restartPolicy == 'Never' ? 'Never' : 'OnFailure');
@@ -124,7 +123,7 @@ export class TaskParameters {
             if(!logAnalyticsWorkspaceKey || !logAnalyticsWorkspace) {
                 throw Error("The Log Analytics Workspace Id or Workspace Key are not provided. Please fill in the appropriate parameters.");
             }
-            if(logType && !['ContainerInsights', 'ContainerInstanceLogs'].includes(logType)) {
+            if(logType && (logType != 'ContainerInsights' && 'ContainerInstanceLogs')) {
                 throw Error("Log Type Can be Only of Type `ContainerInsights` or `ContainerInstanceLogs`");
             }
             let logAnalytics: ContainerInstanceManagementModels.LogAnalytics = { "workspaceId": logAnalyticsWorkspace, 
@@ -210,7 +209,7 @@ export class TaskParameters {
             }
             let volMount: ContainerInstanceManagementModels.VolumeMount = { "name": "azure-file-share-vol", "mountPath": afsMountPath };
             if(afsReadOnly) {
-                if(!["true", "false"].includes(afsReadOnly)) {
+                if(afsReadOnly != "true" && "false") {
                     throw Error("The Read-Only Flag can only be `true` or `false` for the Azure File Share Volume");
                 }
                 vol.readOnly = (afsReadOnly == "true");

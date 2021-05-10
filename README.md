@@ -73,7 +73,7 @@ jobs:
             username: ${{ secrets.REGISTRY_USERNAME }}
             password: ${{ secrets.REGISTRY_PASSWORD }}
         - run: |
-            docker build . -t contoso.azurecr.io/nodejssampleapp:${{ github.sha }}
+            docker build .t contoso.azurecr.io/nodejssampleapp:${{ github.sha }}
             docker push contoso.azurecr.io/nodejssampleapp:${{ github.sha }}
 
         - name: 'Deploy to Azure Container Instances'
@@ -133,18 +133,6 @@ jobs:
     secure-environment-variables: key1=${{ secrets.ENV_VAL1 }} key2=${{ secrets.ENV_VAL2 }}
     location: 'east us'
 ```
-
-# Local Development and Testing
-
-If you wish to develop and test changes against a local fork or development repo, you can do so by including the `node_modules` in tagged release branch. Note that the `aci-deploy` repository does not include these modules in the master branch, so you cannot point your action to `aci-deploy/master` to pick up recent commits. 
-
-Testing can be performed against your local repo by performing the following:
-
-* Fork this repo.
-* Create a separate branch on your local copy. This will be used to execute the action from your workflow.
-* Perform an `npm install` and `npm run build`
-* Ensure that you check in the `node_modules` directory to your branch.
-* Update your workflow to refer to your tagged release from forked copy.
 
 # Contributing
 
