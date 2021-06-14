@@ -159,7 +159,7 @@ export class TaskParameters {
                 let pairList = pair.split(/=(?:"(.+)"|(.+))/);
                 let obj: ContainerInstanceManagementModels.EnvironmentVariable = { 
                     "name": pairList[0], 
-                    "value": pairList[1] || pairList[2]
+                    "secureValue": pairList[1] || pairList[2]
                 };
                 this._environmentVariables.push(obj);
             })
