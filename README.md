@@ -69,7 +69,7 @@ jobs:
         
         - uses: azure/docker-login@v1
           with:
-            login-server: contoso.azurecr.io
+            login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
             username: ${{ secrets.REGISTRY_USERNAME }}
             password: ${{ secrets.REGISTRY_PASSWORD }}
         - run: |
@@ -81,7 +81,8 @@ jobs:
           with:
             resource-group: contoso
             dns-name-label: url-for-container
-            image: contoso.azurecr.io/nodejssampleapp:${{ github.sha }}
+            image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/nodejssampleapp:${{ github.sha }}
+            registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
             registry-username: ${{ secrets.REGISTRY_USERNAME }}
             registry-password: ${{ secrets.REGISTRY_PASSWORD }}
             name: contoso-container
