@@ -49,6 +49,9 @@ async function main() {
                 "type": taskParams.ipAddress,
                 "dnsNameLabel": taskParams.dnsNameLabel
             },
+            "networkProfile": {
+                "id": taskParams.networkProfileId
+            },
             "diagnostics": taskParams.diagnostics,
             "volumes": taskParams.volumes,
             "osType": taskParams.osType,

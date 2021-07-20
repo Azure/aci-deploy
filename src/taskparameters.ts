@@ -18,6 +18,7 @@ export class TaskParameters {
     private _gpuSKU: ContainerInstanceManagementModels.GpuSku;
     private _image:string;
     private _ipAddress:ContainerInstanceManagementModels.ContainerGroupIpAddressType;
+    private _networkProfileId:string;
     private _location:string;
     private _memory: number;
     private _containerName: string;
@@ -73,6 +74,7 @@ export class TaskParameters {
         } else {
             this._ipAddress = (ipAddress == 'Public') ? 'Public' : 'Private';
         }
+        this._networkProfileId = core.getInput('network-profile-id');
         this._location = core.getInput('location', { required: true });
         this._memory = parseFloat(core.getInput('memory'));
         this._containerName = core.getInput('name', { required: true });
@@ -321,6 +323,10 @@ export class TaskParameters {
 
     public get subscriptionId() {
         return this._subscriptionId;
+    }
+
+    public get networkProfileId() {
+        return this._networkProfileId;
     }
 
 }
