@@ -88,6 +88,9 @@ inputs:
     name:
         description: 'Name of the Container Group Instance'
         required: true
+    network-profile-id:
+        description: 'ID of the network profile. Required only when ip-address is set Private.'
+        required: false
     os-type:
         description: 'The OS type of the Containers. Accepted Values are  { Linux, Windows }'
         required: false
