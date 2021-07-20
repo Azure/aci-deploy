@@ -119,6 +119,9 @@ inputs:
     secure-environment-variables:
         description: 'List of secure environment variables for the container. Space seperated values in "key=value" format'
         default: ''
+    networkProfile:
+    description: 'networkProfile'
+    default: ''
 outputs:
     app-url:
         description: 'URL of the Deployed Application'
