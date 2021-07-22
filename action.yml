@@ -66,7 +66,7 @@ inputs:
         description: 'Specify the fully qualified container image name. For example, "myregistry.azurecr.io/nginx:latest" or "python:3.7.2-alpine/"'
         required: true
     ip-address:
-        description: 'IP Address type of the Container Group. Accepted Values are { Private, Public }'
+        description: 'IP Address type of the Container Group. Accepted Values are { Private, Public }.Currently it only supports { Public }'
         required: false
         default: 'Public'
     location:
