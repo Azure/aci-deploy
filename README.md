@@ -6,7 +6,9 @@ You can automate your workflows to deploy to [Azure Container Instances](https:/
 
 Get started today with a [free Azure account](https://azure.com/free/open-source)!
 
-This repository contains [GitHub Action for Deploying to Azure Container Instances](/action.yml) to deploy to Azure Container Instances. It supports deploying your container image to an Azure Container Instance.
+This repository contains [GitHub Action for Deploying to Azure Container Instances](/action.yml) to deploy to Azure Container Instances. It supports deploying your container image to an Azure Container Instance. 
+
+__Note__: Currently this action supports deploying to azure container instances only if the __ip-Address__ of the container group is __public__. 
 
 The definition of this GitHub Action is in [action.yml](/action.yml).
 
