@@ -123,6 +123,8 @@ jobs:
 
 **NOTE**: The values of ```secure-environment-variables``` will not be shown in the properties of the Azure Container Instance, but **will** be shown in the logs of the GitHub Action unless you specify them as Secrets.
 
+Your environment variable names must start with a alphabetic character or `_`. In addition, environment variables should be enclosed in double quotes `""` and not be multiline strings. 
+
 ```yaml
 - uses: Azure/aci-deploy@v1
   with:
