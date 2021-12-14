@@ -121,7 +121,9 @@ jobs:
 
 ### Deploying a Container with Environment Variables and Command Line
 
-**NOTE**: The values of ```secure-environment-variables``` will not be shown in the properties of the Azure Container Instance, but **will** be shown in the logs of the GitHub Action unless you specify them as Secrets.
+**NOTE**: 
+1. The values of ```secure-environment-variables``` will not be shown in the properties of the Azure Container Instance, but **will** be shown in the logs of the GitHub Action      unless you specify them as Secrets.
+2. If you are going to update the OS-type, restart policy, network profile, CPU, memory or GPU resources for a container group, you must delete it first and then create a new one.
 
 Your environment variable names must start with a alphabetic character or `_`.
 
@@ -131,6 +133,8 @@ Your environment variable names must start with a alphabetic character or `_`.
     resource-group: contoso
     dns-name-label: url-for-container
     image: nginx
+    cpu: 1
+    memory: 0.1
     name: contoso-container
     command-line: /bin/bash a.sh
     environment-variables: key1=value1 key2=value2
