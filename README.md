@@ -8,7 +8,9 @@ Get started today with a [free Azure account](https://azure.com/free/open-source
 
 This repository contains [GitHub Action for Deploying to Azure Container Instances](/action.yml) to deploy to Azure Container Instances. It supports deploying your container image to an Azure Container Instance. 
 
-__Note__: Currently this action supports deploying to azure container instances only if the __ip-Address__ of the container group is __public__. 
+__Note__: 
+1. Currently this action supports deploying to azure container instances only if the __ip-Address__ of the container group is __public__. 
+2. If you are going to update the `OS-type`, `restart policy`, `network profile`, `CPU`, `memory` or `GPU` resources for a container group using workflow, you must delete the container group first and then create a new one.
 
 The definition of this GitHub Action is in [action.yml](/action.yml).
 
@@ -121,9 +123,7 @@ jobs:
 
 ### Deploying a Container with Environment Variables and Command Line
 
-**NOTE**: 
-1. The values of ```secure-environment-variables``` will not be shown in the properties of the Azure Container Instance, but **will** be shown in the logs of the GitHub Action      unless you specify them as Secrets.
-2. If you are going to update the OS-type, restart policy, network profile, CPU, memory or GPU resources for a container group, you must delete it first and then create a new one.
+**NOTE**: The values of ```secure-environment-variables``` will not be shown in the properties of the Azure Container Instance, but **will** be shown in the logs of the GitHub Action      unless you specify them as Secrets.
 
 Your environment variable names must start with a alphabetic character or `_`.
 
