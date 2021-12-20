@@ -8,7 +8,9 @@ Get started today with a [free Azure account](https://azure.com/free/open-source
 
 This repository contains [GitHub Action for Deploying to Azure Container Instances](/action.yml) to deploy to Azure Container Instances. It supports deploying your container image to an Azure Container Instance. 
 
-__Note__: Currently this action supports deploying to azure container instances only if the __ip-Address__ of the container group is __public__. 
+__Note__: 
+1. Currently this action supports deploying to azure container instances only if the __ip-Address__ of the container group is __public__. 
+2. If you are going to update the `OS-type`, `restart policy`, `network profile`, `CPU`, `memory` or `GPU` resources for a container group using workflow, you must delete the container group first and then create a new one.
 
 The definition of this GitHub Action is in [action.yml](/action.yml).
 
@@ -84,6 +86,8 @@ jobs:
             resource-group: contoso
             dns-name-label: url-for-container
             image: contoso.azurecr.io/nodejssampleapp:${{ github.sha }}
+            cpu: 1   #Optional
+            memory: 0.1   #Optional
             registry-username: ${{ secrets.REGISTRY_USERNAME }}
             registry-password: ${{ secrets.REGISTRY_PASSWORD }}
             name: contoso-container
