@@ -86,6 +86,8 @@ jobs:
             resource-group: contoso
             dns-name-label: url-for-container
             image: contoso.azurecr.io/nodejssampleapp:${{ github.sha }}
+            cpu: 1   #Optional
+            memory: 0.1   #Optional
             registry-username: ${{ secrets.REGISTRY_USERNAME }}
             registry-password: ${{ secrets.REGISTRY_PASSWORD }}
             name: contoso-container
@@ -133,8 +135,6 @@ Your environment variable names must start with a alphabetic character or `_`.
     resource-group: contoso
     dns-name-label: url-for-container
     image: nginx
-    cpu: 1
-    memory: 0.1
     name: contoso-container
     command-line: /bin/bash a.sh
     environment-variables: key1=value1 key2=value2
