@@ -125,7 +125,7 @@ jobs:
 
 ### Deploying a Container with Environment Variables and Command Line
 
-**NOTE**: The values of ```secure-environment-variables``` will not be shown in the properties of the Azure Container Instance, but **will** be shown in the logs of the GitHub Action      unless you specify them as Secrets.
+**NOTE**: The values of ```secure-environment-variables``` will not be shown in the properties of the Azure Container Instance, but **will** be shown in the logs of the GitHub Action unless you specify them as Secrets.
 
 Your environment variable names must start with a alphabetic character or `_`.
 
