@@ -34,7 +34,7 @@ inputs:
         default: 1
     dns-name-label:
         description: 'The DNS Name Label for Container with Public IP'
-        required: true
+        required: false
     environment-variables:
         description: 'List of environment variables for the container. Space-seperated in "key=value" format'
         required: false
@@ -118,6 +118,10 @@ inputs:
         default: 'Always'
     secure-environment-variables:
         description: 'List of secure environment variables for the container. Space seperated values in "key=value" format'
+        default: ''
+    network-profile-id:
+        description: 'ID or name of the network profile'
+        required: false
         default: ''
 outputs:
     app-url:
