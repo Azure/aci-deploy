@@ -54,7 +54,10 @@ async function main() {
             "osType": taskParams.osType,
             "restartPolicy": taskParams.restartPolicy,
             "type": "Microsoft.ContainerInstance/containerGroups",
-            "name": taskParams.containerName
+            "name": taskParams.containerName,
+            "networkProfile": taskParams.networkProfileId ? {
+                "id": taskParams.networkProfileId
+            } : undefined,
         }
         let containerDeploymentResult = await client.containerGroups.createOrUpdate(taskParams.resourceGroup, taskParams.containerName, containerGroupInstance);
         if(containerDeploymentResult.provisioningState == "Succeeded") {

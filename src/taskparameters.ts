@@ -30,6 +30,7 @@ export class TaskParameters {
     private _restartPolicy: ContainerInstanceManagementModels.ContainerGroupRestartPolicy;
     private _volumes: Array<ContainerInstanceManagementModels.Volume>;
     private _volumeMounts: Array<ContainerInstanceManagementModels.VolumeMount>;
+    private _networkProfileId: string;
     
     private _subscriptionId: string;
 
@@ -45,7 +46,7 @@ export class TaskParameters {
             });
         }
         this._cpu = parseFloat(core.getInput('cpu'));
-        this._dnsNameLabel = core.getInput('dns-name-label', { required: true });
+        this._dnsNameLabel = core.getInput('dns-name-label');
         this._diagnostics = {}
         let logType = core.getInput('log-type');
         let logAnalyticsWorkspace = core.getInput('log-analytics-workspace');
@@ -116,6 +117,7 @@ export class TaskParameters {
         let afsAccountName = core.getInput('azure-file-volume-account-name');
         let afsShareName = core.getInput('azure-file-volume-share-name');
         this._getVolumes(gitRepoVolumeUrl, afsShareName, afsAccountName);
+        this._networkProfileId = core.getInput('network-profile-id');
     }
 
     private _getDiagnostics(logAnalyticsWorkspace: string, logAnalyticsWorkspaceKey: string, logType: string) {
@@ -321,6 +323,10 @@ export class TaskParameters {
 
     public get subscriptionId() {
         return this._subscriptionId;
+    }
+
+    public get networkProfileId() {
+        return this._networkProfileId;
     }
 
 }
